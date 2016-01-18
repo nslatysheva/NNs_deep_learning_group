@@ -1,0 +1,75 @@
+Chapter 1 – Using neural nets to recognize handwritten digits
+http://neuralnetworksanddeeplearning.com/chap1.html
+
+Concepts covered
+
+Neural networks
+Pattern recognition
+
+Artificial neurons
+Perceptrons
+Weights, thresholds, and biases
+Perceptrons as logic gates
+NAND and NOR gates, universal computation
+
+Sigmoid neurons
+Learning algorithms
+Activation function
+
+Neural network architectures
+Feedforward neural networks
+Recurrent neural networks
+Input layer, hidden layers, output layer
+
+Cost function
+Quadratic loss/mean squared error
+Gradient descent
+Learning rate
+Stochastic gradient descent
+Mini-batch
+Epoch of training
+
+
+Some quick notes
+
+Intro
+
+•	The difficulty of visual pattern recognition (e.g. digit classification) becomes clear when we try to write an explicit program to recognize digits, i.e. when we try to encode hard rules
+	o	The task becomes next to impossible due to the number of exceptions, caveats, and special cases
+•	Neural networks (NNs) use a different approach – we feed in lots of training examples and the network automatically infers general, robust rules for recognizing a given pattern
+	o	As NNs get more training data, they learn more about the underlying patterns and get better at the task (classification, prediction, etc.)
+	o	We can say that rather than just learning simple patterns of pixel configurations, the network learns to read
+	o	Properly designed NNs are incredibly effective and are used in a lot of applications, e.g. reading bank cheques or addresses on mail
+
+Perceptrons
+
+•	Perceptrons were developed in 50s/60s by Frank Rosenblatt
+	o	Perceptrons take binary input, apply weights to the input, and sum these values up. If the resulting sum is above some threshold, the perceptron fires (it produces an output of 1). If it is below the threshold, the perceptron doesn’t fire (it produces output of 0).
+•	The threshold can be reformulated as the bias. A high threshold is equivalent to a large negative bias. A large negative bias would tend to suppresses firing.
+•	Perceptrons are essentially decision making units that weigh up evidence. By choosing different values of the weights and the threshold, we can get different models of decision-making.
+•	Perceptrons can encode logic gates. Depending on the weights and biases you choose, you can turn a perceptron into different logic gates.
+•	Building logic gates out of perceptrons is interesting because different logic gates can be stacked on top of each other and can compute quite complex functions.
+	o	NAND and XOR gates are universal for computation, so in theory networks of perceptrons can compute any function. 
+•	We can make multi layer perceptrons, which can compute more complicated functions of input. The decisions that the second layer makes can be more complex and abstract than those in the first layer. However, in practice, no one uses perceptrons for building networks. However, sigmoid neurons are a common choice of artificial neuron. 
+
+Sigmoid neurons
+
+•	Sigmoid neurons motivation – small change in weights or biases should lead to small change in network output. This is not the case in networks of perceptrons, since their binary output can lead to instabilities in the network. This “small parameter change leads to small output change” property allows the use of some powerful learning algorithms that automatically set the weights and biases in the network. 
+	o	Sigmoid neurons: take continuous input to produce continuous output between 0 and 1. Sigmoid function can be thought of as a smoothed out step function. If an input is very large then the output tends to 1 just like in the case of perceptrons.
+•	We want the network to gradually get better or worse as we tweak the parameters, and we want to know which direction to change them in. If using perceptrons, which only output 0 or 1, a small change can cause the network’s behavior to completely change to the opposite output. In multi-layer networks, this could have erratic downstream effects that are hard to control for. 
+•	We’ve been looking at feedforward networks – the input layer is input to layer 1, and the output of layer 1 acts as input to layer 2, etc.
+
+Learning
+
+•	We’ve just been choosing convenient numbers for w and b, but the important thing is that there are learning algorithms which automatically optimize them for the given task. No explicit programming of the logical relationships between input and output is required.
+•	This is why NNs are a change in thinking from other ML algos – the machine itself learns the rules it needs to, so it automatically deals with the exceptions and quirks in the data and picks out the underlying patterns
+•	How exactly are we going to learn the weights and biases? Basically: make a small change in w or b and see how it affects the output. Changing w and b incrementally to better values corresponds to the network “learning”.
+•	To find the best combination of weights and biases for the network, we will be trying to minimize a cost function. This is a measure of the error of the network. Having this proxy measure is useful because again, it introduces smoothness and allows the learning algorithms to work properly. 
+	o	So, unlike e.g. random forests, where we do CV to maximize accuracy, we try to maximize some other measure that is related to the accuracy. This measure is the cost function.
+
+•	The way we are going to find the optimal weights and bias values is using gradient descent. Using GD, we will explore cost function space to try to arrive at the optimal values of the weights and biases.  
+	o	We don’t actually know the cost function space, so it’s hard to figure out where the global minimum is. GD is a method for wandering around the space in a sensible way. We wouldn’t be able to use calculus to get a solution analytically. SG is a heuristic that simply says – wherever you are on the cost function surface, go downhill, now. 
+	o	Specifically, we update our weights and bias vectors by the negative of the surface gradient from where we’re currently standing (see textbook for an excellent explanation of the maths). This operation amounts to moving downhill. The amount by which we move downhill is controlled by the learning rate, eta. 
+
+•	In practice, we do stochastic gradient descent, in which we use a random sample of the training set (mini-batch) to compute the cost instead of the whole training set. This makes GD a lot faster.
+
