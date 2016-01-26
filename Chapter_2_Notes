@@ -1,7 +1,8 @@
 Chapter 2 – How the backpropagation algorithm works
 http://neuralnetworksanddeeplearning.com/chap2.html
 
-Concepts covered
+######### Concepts covered
+#########
 
 Partial derivatives/gradients
 Backpropagation
@@ -30,7 +31,8 @@ Neuron saturation and learning rate
 
 
 
-Some quick notes
+######### Some quick notes
+#########
 
 In the last chapter, we used stochastic gradient descent to learn the weights and biases for a network trying to classify handwritten digits. We took for granted that we can get the partial derivatives of the cost function with respect to any parameter (any weight or bias). These partial derivatives (or gradients) are how quickly the cost function changes when we change a given parameter and hold all other factors constant. In other words, “backpropagation is about understanding how changing the weights and biases in a network changes the cost function.”
 
@@ -40,7 +42,8 @@ This chapter also finally demonstrates why we want: 1) an activation function th
 
 
 
-Notation practice
+######### Notation practice
+#########
 
 It’s definitely worthwhile to take some time to familiarize yourself with the notation we’re using for the rest of the chapter. It’s good to try out annotating different parts of the network, both for individual neurons and for the whole layer (since we’ll be doing some calculations over whole layers). 
 
@@ -56,7 +59,8 @@ Specifically, pick some neuron in a neural network. How would you specify, using
 
 
 
-Layer notation and vectorization
+######### Layer notation and vectorization
+#########
 
 Instead of talking about individual neurons, it is easier to talk about entire layers of neurons. Instead of computing the weighted input to each neuron (z), then adding its bias (b), and then applying the activation function (sigma) to get the neuron’s output (or activation, a), we can instead do these operations for a lot of neurons at once if we have the right matrices and vectors set up. We can vectorize these operations.  
 
@@ -71,7 +75,8 @@ This allows us to talk about the behavior of entire layers of the network succin
 
 
 
-Assumptions about cost function needed for backprop to work
+######### Assumptions about cost function needed for backprop to work
+#########
 
 	1) Cost function must be a function of the network’s output (duh?).
 	2) Cost function must be able to be written as the average over the costs of individual training examples.
@@ -80,13 +85,13 @@ Backprop actually lets us compute the partial derivatives we need for a single t
 
 
 
-The error of individual neurons
+######### The error of individual neurons
+#########
 
 Backpropagation actually allows us to compute the individual error of neuron j in layer l, δlj. We can then relate that value to what we’re actually after, the partial derivative of the cost function C with respect to each weight wljk and bias blj, expressed as ∂C/∂wljk and ∂C/∂blj
-
-
-
-Demon sitting in network changing the input to a neuron
+ 
+######### Demon sitting in network changing the input to a neuron
+#########
 
 Say there is a demon sitting at some neuron and tweaking the input to it (z) by a little bit (delta z) and observing how this affects the overall performance of the network, as judged by the value of the cost function. The demon is a good demon and wants to help us minimize the cost function. If adding delta z to the input changes the cost function quite a bit, then it suggests that the neuron’s input wasn’t quite optimal/stable and we should probably we changing its weighted input by changing either the weights that lead up to the neuron, or the neuron’s bias, or both. 
 
@@ -94,12 +99,13 @@ There is therefore a sense in which the change in the network’s output as a re
 
 
 
-Backprop equations
+######### Backprop equations
+######### 
 
 I’m not sure these 4 equations were explained in enough detail, so I’ll just write out a random stream of thoughts, which I hope is somewhat accurate, in case it helps someone.  Warning: amateur mathematics ahead.
 
 
-1. Equation for the error in the output layer
+######### 1. Equation for the error in the output layer
 
 The “error” for some neuron in the output layer depends on two things: 
 	1.	How much the cost function changes with respect to the output (activation, a) of that neuron and
@@ -115,7 +121,7 @@ Also, if the neuron’s activation value isn’t close to 0 or 1, if it’s some
 
 
 
-2. An equation for the error in a layer in terms of the error in the next layer
+######### 2. An equation for the error in a layer in terms of the error in the next layer
 
 For a specific neuron in layer L-1, recall that it’ll have weights leading up to the output neurons. 
 
@@ -137,7 +143,7 @@ The weights and biases in the final layer therefore learn slowly if the output n
 
 
 
-3. An equation for the rate of change of the cost with respect to any bias in the network
+######### 3. + 4. Equation for the rate of change of the cost with respect to any bias or weight in the network
 
 Recall that, when we were talking about the demon, we said that the amount by which the cost function changes when we tweak the input is a measure of the error of the neuron. 
 
@@ -158,7 +164,8 @@ These concerns about learning slow down in theory apply to other activation func
 
 
 
-Other comments on backprop	
+######### Other comments on backprop	
+#########
 
 We saw that the backpropagation algorithm computes the gradient of the cost function for a single training example. But in practice, we combine backpropagation with a learning algorithm (stochastic gradient descent), thereby getting the gradients for many training examples. So in short: we try to minimize the cost function in order to find the right parameters. We minimize the cost function by using gradient descent, and the gradients are given to use by the backprop algorithm.
 
