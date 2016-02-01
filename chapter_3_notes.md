@@ -1,43 +1,68 @@
-*Chapter 3 – Improving the way that neural networks learn*
+***Chapter 3 – Improving the way that neural networks learn***
 
 http://neuralnetworksanddeeplearning.com/chap3.html
+
 
 **Concepts covered**
 
 Neuron saturation
+
 Learning slowdown
+
 Cross entropy cost function
+
 Hyper-parameters
 
+
 Softmax output layer
+
 Network output as a probability distribution
+
 Log-likelihood cost function
 
+
 Overfitting and regularization
+
 Validation sets
+
 Early stopping
 
+
 Weight decay or L2 regularization
+
 Lambda, the regularization parameter
 
+
 L1 regularization
+
 Dropout
 Artificial expansion of training data
 
+
 Initializing weights of the network
 
+
 Choosing good values for hyper-parameters
+
 Learning rate schedules
+
 Automated approaches, grid search
 
+
 Variations on stochastic gradient descent
+
 Hessian optimization
+
 Momentum techniques
 
+
 Other types of artificial neurons
+
 Tanh neurons
+
 Sigmoid neurons
  
+
 **Some quick notes**
 
 This chapter is about different ways to improve on the basic neural network design. 
