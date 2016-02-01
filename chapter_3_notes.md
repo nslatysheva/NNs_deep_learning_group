@@ -1,9 +1,9 @@
-***Chapter 3 – Improving the way that neural networks learn***
+#Chapter 3 – Improving the way that neural networks learn
 
 http://neuralnetworksanddeeplearning.com/chap3.html
 
 
-**Concepts covered**
+##Concepts covered
 
 Neuron saturation
 
@@ -63,11 +63,11 @@ Tanh neurons
 Sigmoid neurons
  
 
-**Some quick notes**
+##Some quick notes
 
 This chapter is about different ways to improve on the basic neural network design. 
 
-**Learning slowdown**
+##Learning slowdown##
 
  We can play with a toy example where we just try to train a single neuron to produced a desired output of 0. The initial output is 0.82, so we need it to shift its behavior quite a long ways away (remember the sigmoid neurons produce output between 0 and 1). The neuron learns relatively quickly.
 
@@ -79,7 +79,7 @@ Since the neuron learns by changing the parameters proportionally to the partial
 
 Let’s take a look at the cost function, C=(y−a)2. When we differentiate w.r.t. to w and b (recall that a = sigma(z) and that z = wx + b), we find that the partial derivatives we’re interested in scale with the derivative of the activation function, and this is close to 0 when the output is close to 1. This is the origin of the learning slow down. Learning slowdown in whole networks occurs for a similar reason as the slowdown for this 1 toy neuron example.  
 
-**Cross entropy cost function**	
+##Cross entropy cost function
 
 We can get rid of the learning slowdown problem by using the cross entropy cost function instead of the quadratic cost function. Intuitively, cross entropy works as a cost function because it is always non-negative, and is close to zero if the actual observed output is close to the desired output. 
 
@@ -93,11 +93,11 @@ It turns out that cross entropy is nearly always a better choice of cost functio
 
 When running the network on the MNIST data with cross-entropy, we drop the error rate from 3.41 percent to 3.18. However, this doesn’t prove that it’s the better choice, because so far we haven’t put much effort into optimizing the hyper-parameters of the network: learning rate, mini-batch size. The improvement would only be very convincing if we’d already put a lot of effort into optimizing the hyper-parameters. Other improvements to the network, especially regularization, will yield much larger improvements to our digit classification. 
 
-**Meaning of cross entropy**	
+##Meaning of cross entropy
 
 The standard interpretation of cross entropy comes from information theory.  The textbook interprets it as a measure of surprise - we get low surprise if the output is what we expect, and high surprise if the output is unexpected. I’ve seen another interpretation that says that it’s a measure of the information content of the error - if your error contains a lot of information, then you’re not doing a good job and you can extract more from it.
 
-**Softmax – a new type of output layer**
+##Softmax – a new type of output layer
 
 Instead of having normal sigmoid neurons in the output layer of our neural network, we can instead use softmax neurons. These neurons apply the softmax function to the input instead of the sigmoid function. The softmax function guarantees that the activations of the output neurons will all sum to 1 and will be positive – this allows us to treat our output as a probability distribution. So, the softmax layer outputs activations that all sum to 1. Now, in our MNIST problem, we can regard the output of the output neuron representing “0” as the probability that the digit the network has just seen is 0. This is a nice and intuitive way of looking at the output of the network. 
 
@@ -105,19 +105,19 @@ The softmax function is not voodoo, it is just a way of rescaling the output and
 
 Note: why is the softmax function a “softened” version of the maximum function?
 
-**Log-likelihood cost function**
+##Log-likelihood cost function
 
 Whenever softmax output layers are used, it is common to see the log-likelihood cost function used. It is just the negative (natural) log of the probabilities output by the softmax layer. 
 
 Consider when the network does a good job classifying an image – say we fed in an image of a 5, and the output neuron for “5” output a high probability (say 0.9, the network thinks there is a 90% chance of the image being a 5). Then, -ln(0.9) is ~0.1, which is a low number. If the network wasn’t so sure, then we might get –ln(0.4) = 0.9, which is much higher. 
 
-I’ll write down a random example. Say we are classifying images into 10 digits. One of the worst outcomes would be if we had no clue what an image was, the probabilities of each class are 0.1. The cost function is  –ln(0.1) * 10 = 23. Instead, if we are quite sure (0.9) that the image is for instance a 5, and we’re equally uncertain about the other options, the cost would be –ln(0.9) + -ln(0.1/9)*9 = 40.6. Wait a second... maybe I don’t really understand what’s going on here. ***I’ll flag this up for group discussion***.
+I’ll write down a random example. Say we are classifying images into 10 digits. One of the worst outcomes would be if we had no clue what an image was, the probabilities of each class are 0.1. The cost function is  –ln(0.1) # 10 = 23. Instead, if we are quite sure (0.9) that the image is for instance a 5, and we’re equally uncertain about the other options, the cost would be –ln(0.9) + -ln(0.1/9)#9 = 40.6. Wait a second... maybe I don’t really understand what’s going on here. ###I’ll flag this up for group discussion###.
 
 The softmax output layer with log-likelihood cost turns out to be quite similar to a sigmoid output layer with cross-entropy cost. It avoids learning slowdown in an analogous manner. 
 
 When do we use sigmoid neurons with cross entropy and when do we use softmax output layer and maximum likelihood? Often, both will due just fine. In certain cases we might want the nice feature of the outputs being a probability distribution (e.g. if we have disjoint classes, like digits), so that can be a factor for deciding one over the other. 
 
-**Overfitting and regularization**
+##Overfitting and regularization
 
 “The true test of a model is its ability to make predictions in situations it hasn't been exposed to before”. This is the motivation behind validation and test sets.
 
@@ -137,13 +137,13 @@ The validation set will also be used to optimize various hyperparameters.
 
 Using more training data will greatly reduce overfitting, causing the training error and the test error to be more similar. This is because more data exposes the network to more examples it needs to be able to interpret, causing it focus on developing a more robust approach to the problem, in effect glossing over any particular idiosyncrasies of specific training examples. The network generalizes better. Getting more data will always cause a substantial improvement, but this isn’t always possible.
 
-**Regularization**	
+##Regularization
 
 There are other ways to reduce the level of overfitting in a network other than getting more training data. We could also reduce the size of the network, for instance. However, larger networks can be more powerful, so we have an incentive to have them be larger. 
 
 Regularization techniques are a set of tools to help reduce overfitting.
 
-***L2 regularization***
+###L2 regularization
 
 One such technique is L2 regularization, or weight decay. Note: in case you’re familiar with L2 regularization in linear regression (also called ridge regression), this is exactly the same principle.
 
@@ -167,7 +167,7 @@ So, regularization is a way to reduce overfitting and increase classification ac
 
 Here is an approximate explanation for why we might get stuck if we’re doing unregularised training: the weights are likely to grow during training, all other things being equal. They can get so large that it gets stuck pointing in one direction, since changes due to gradient descent only make tiny changes to the direction. Our learning algorithm is then forced into doing a poor job of exploring the weight space, and so it’s consequently harder to find good minima of the cost function.
 
-***L1 regularization***
+###L1 regularization
 
 
 L1 regularization (in linear regression, the analogous technique is called lasso regression) is quite similar to L2 regularization – we stick a penalty term to the end of the cost function which reduces the magnitude of our weights.  In L1 regression, the penalty is the sum of the absolute values of our weights.
@@ -182,7 +182,7 @@ By contrast, when |w| is small, L1 regularization shrinks the weight much more t
 
 The net result is that L1 regularization tends to concentrate the weight of the network in a relatively small number of high-importance connections, while the other weights are driven toward zero.”
 
-***Dropout***
+###Dropout
 
 This is a really different regularization technique. Instead of modifying the cost function, we modify the network itself. 
 
@@ -196,13 +196,13 @@ When we drop out different neurons, it’s like we’re training different netwo
 
 Dropout has been a very successful in improving the performance of neural networks, especially large and deep ones where overfitting is an even bigger concern. 
 
-***Artificially expanding the training data***
+###Artificially expanding the training data
 
 Performance improves as we use more training data. An easy way to get more training data is by artificially expanding. For example, if we’re training on images, we can expand by taking the images and rotating, shifting, distorting, skewing or tinting them. These can be very simple distortions (e.g. rotate each image 15 degrees) or very complex (e.g. model the random oscillations in hand muscles to “write” slightly different numbers from what you have). Either way, we try to expand the experience of the network by exposing it to the types of variations found in real data.
 
 If it’s speech data we’re interested in, we could apply noise, or alter the speed of the speech clips to artificially expand the data. 
 
-**Other notes**
+##Other notes##
 
 More training data can sometimes compensate for differences in the machine learning algorithm used, e.g. the SVM outperforms the NN when we have tons and tons of data (in this example).
 
@@ -210,7 +210,7 @@ We can’t really ask questions like, is algorithm A better than algorithm B? It
 
 Overfitting is a major problem for NNs and will become a bigger problem especially as computers get more powerful and we have the ability to train larger networks. It’s an extremely active area of NN research.
 
-**Weight initialization	**
+##Weight initialization
 
 Previously, we initialized our parameters using independent normal random variables with mean 0 and standard deviation 1.
 
@@ -222,7 +222,7 @@ The thing to do is, instead of initializing weights and biases from a normal dis
 
 This has the effect of making extreme inputs to a neuron very unlikely.
 
-**Choosing good hyper-parameter values**
+##Choosing good hyper-parameter values
 
 So far we’ve been choosing what looks like arbitrary values for our hyper-parameters, like the learning rate eta and the regularization parameter lambda.
 
@@ -250,13 +250,13 @@ Too large and you're simply not updating your weights often enough.
 
 What you need is to choose a compromise value which maximizes the speed of learning.”
 
-**Learning rate schedules**
+##Learning rate schedules
 
 It turns out to often be advantageous to alter the learning rate during training instead of constantly keeping eta the same. Early during training, the weights are badly wrong, so it makes sense to have a high learning rate. Later, we can reduce our learning rate as we are closer to better weights and want to fine tune them.
 
 How can we set the schedule? We could keep it high until the validation classification accuracy gets worse (suggests that instead of approaching a minimum, the high step size bounces around the cost function) and then decrease it (by e.g. a factor of 10).
 
-**Variations on stochastic gradient descent**
+##Variations on stochastic gradient descent
 
 Hessian methods for traversing the cost function can converge to a minimum in fewer steps than SGD. But it is difficult to do in practice, since the Hessian matrix (full of a bunch of second derivatives) is so massive. 
 
@@ -266,7 +266,7 @@ The idea is that if the gradient is in (roughly) the same direction through seve
 
 The momentum technique is widely used, often speeds up learning, and doesn’t require much modification to the SGD code.
 
-**Other models of artificial neuron**
+##Other models of artificial neuron
 
 Tanh neurons are a common choice for artificial neurons, replacing the sigmoid function by the hyperbolic function. It looks a lot like a sigmoid function, but its output ranges from -1 to 1.
 
