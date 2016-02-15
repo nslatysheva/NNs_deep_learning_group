@@ -5,9 +5,13 @@ http://neuralnetworksanddeeplearning.com/chap5.html
 ##Concepts covered
 
 Gradient descent methods on deep networks -> different layers learn at v. different rates
+
 Unstable gradients
+
 Vanishing gradient problem
+
 Exploding gradient problem
+
 
 ##Some quick notes	
 
