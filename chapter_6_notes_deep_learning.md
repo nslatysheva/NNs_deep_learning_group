@@ -10,22 +10,18 @@ http://neuralnetworksanddeeplearning.com/chap6.html
 + Stride lengths
 + Shared weights and biases
 + Pooling
-
 + Max pooling
 + L2 pooling
-
 + The use of GPUs
 + Algorithmic expansion of training data
 + Dropout
 + Using ensembles of networks
-
 + Recurrent neural networks
 + Long short-term memory units
 + Deep belief nets
 + Generative neural networks
 + Restricted Boltzmann machines 
 + Reinforcement learning
-
 + The future of neural networks and deep learning
 + Intention-driven user interfaces
 + The role of deep learning in artificial intelligence
@@ -36,7 +32,7 @@ We have reason to believe that deeper networks are more powerful than shallow ne
 
 This chapter covers one of the most widely used types of deep networks – deep convolutional networks. We’ll go through a lot of different techniques that result in our network achieving basically human performance in recognizing numbers.	
 
-#Deep learning for image recognition
+##Deep learning for image recognition
 Deep convolutional neural networks (CNNs, also ‘convolutional nets’) are one of the most common types of deep network, and are the architectures used in most NNs built for image recognition. CNNs can take advantage of spatial data – before, we were treating pixels the same regardless of where in the image it was placed, but convolutional networks leverage spatial proximity. This is an intuitively sensible thing to do, since if we treat pixels independently, we throw away useful information. As one might expect, this approach is useful for classifying images. 
 
 This type of architecture also permits quick training because it minimizes the number of parameters we have to optimise, which in turn allows us to make deep networks with many layers that tend to be quite good at identifying images. 
@@ -49,7 +45,7 @@ CNN architectures look a bit different to the other networks we’ve looked at. 
 
 A CNN has the following components:
 
-![alt text](https://github.com/.../CNN_overview.pdf "Convolutional neural network structure")
+![alt text](https://github.com/nslatysheva/NNs_deep_learning_group/tree/master/images/CNN_overview.pdf "Convolutional neural network structure")
 
 So, the CNN first takes an image as its input (input layer). We then perform a series of computations on the image pixel values – specifically, we extract features form the image using special filters (or kernels). As we go deeper into the CNN, we move from detecting simple features like edges using the convolutional layers, to simplifying the feature detection using the pooling layers, and then move on to more abstract recognition of objects in the fully connected layer. We then output the predictions as before.
 
@@ -57,13 +53,13 @@ So, the CNN first takes an image as its input (input layer). We then perform a s
 
 Unlike before, we will not be connecting each pixel to 1 hidden layer neuron. Instead, we connect a group of pixels to a hidden layer neuron. The first hidden layer is composed of many neurons, and each one is connected to a different group of pixels. The group of pixels that each hidden neuron is connected to is called the local receptive field of the hidden neuron. Here is an example of a 2x2 local receptive field on a 4x4 image:
 
-![alt text](https://github.com/.../CNN_pixels.pdf "Local receptive fields of units in the first convolution layer")
+![alt text](https://github.com/nslatysheva/NNs_deep_learning_group/tree/master/images/CNN_pixels.pdf "Local receptive fields of units in the first convolution layer")
  
 Instead of there being one weight between each pixel and a hidden neuron, there is just one weight from the entire local receptive field to the hidden neuron. The hidden neuron still has just one bias. 
 
 This explanation covers what just 1 hidden layer neuron is doing. We build up the rest of the first hidden layer by sliding the local receptive field across the input image, like so:
 
-![alt text](https://github.com/.../CNN_conv.pdf "Sliding window of local receptive fields of different units in the first convolution layer")
+![alt text](https://github.com/nslatysheva/NNs_deep_learning_group/tree/master/images/CNN_conv.pdf "Sliding window of local receptive fields of different units in the first convolution layer")
  
 Here, we moved the window of the receptive field over by 1 pixel at each time, but other stride lengths are possible (e.g. 2). 
 
@@ -78,7 +74,7 @@ So, we are basically just applying a filter (the matrix of weights, which are al
 
 People used to design a lot of these types of filters (e.g. detecting edges) by hand. Now, the network learns them. Here are some examples of filters that detect specific features in images:
 
-![alt text](https://github.com/.../convolutional_matrices.png "Different types of feature filters from Wikipedia")
+![alt text](https://github.com/nslatysheva/NNs_deep_learning_group/tree/master/images/convolutional_matrices.png "Different types of feature filters from Wikipedia")
  
 So far, we can detect one type of feature – e.g. diagonal lines. This mapping between the input and first hidden layer is called a feature map. We will need more than one feature map (weights between input layer and first hidden layer) to recognize objects in images. We want multiple feature maps, which together form a convolutional layer. The feature maps are also sometimes called slices. 
 
@@ -107,7 +103,7 @@ In modern image classification networks, it is common to see a softmax output la
 
 We can add more convolutional layers after the pooling layer in order to win at our task:
 
-![alt text](https://github.com/.../NN_philosophy.png "Different types of feature filters from Wikipedia")
+![alt text](https://github.com/nslatysheva/NNs_deep_learning_group/tree/master/images/NN_philosophy.png "Different types of feature filters from Wikipedia")
 
 The second convolutional-pooling layer sees the output from the first layer, which detected specific types of features in the image. The pixels represent the presence (or absence) of particular features in the original input image. So the second layer has a version of the original input image, but with specific features highlighted (and condensed a bit, due to pooling). Still, there is a lot of spatial structure left, so it makes sense to use another convolutional layer. The second convolutional layer has access to the features in all feature maps in the first layer. 
 
